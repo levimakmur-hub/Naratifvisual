@@ -247,6 +247,53 @@
             justify-content: center;
         }
 
+        /* FLOATING CART ICON */
+        .floating-cart {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            background-color: var(--primary-color);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(26, 71, 42, 0.3);
+            transition: all 0.3s ease;
+            border: 2px solid white;
+        }
+
+        .floating-cart:hover {
+            transform: scale(1.1);
+            background-color: var(--accent-color);
+            box-shadow: 0 6px 20px rgba(26, 71, 42, 0.4);
+        }
+
+        .floating-cart i {
+            font-size: 24px;
+        }
+
+        .floating-cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #dc3545;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 2px solid white;
+        }
+
         .modal-header {
             background-color: var(--primary-color);
             color: var(--text-light);
@@ -412,6 +459,23 @@
             .footer-social {
                 justify-content: center;
             }
+
+            .floating-cart {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .floating-cart i {
+                font-size: 20px;
+            }
+
+            .floating-cart-badge {
+                width: 20px;
+                height: 20px;
+                font-size: 12px;
+            }
         }
         
         /* Tampilan desktop footer yang seimbang */
@@ -470,6 +534,12 @@
             </div>
         </div>
     </nav>
+
+    <!-- Floating Cart Icon -->
+    <div class="floating-cart" onclick="openCartModal()">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="floating-cart-badge" id="floatingCartCount">0</span>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero-section" id="home">
@@ -905,9 +975,12 @@
 
         // Update keranjang
         function updateCart() {
-            // Update jumlah item di badge
+            // Update jumlah item di badge navbar
             const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
             document.getElementById('cartCount').textContent = totalItems;
+            
+            // Update jumlah item di floating cart
+            document.getElementById('floatingCartCount').textContent = totalItems;
             
             // Update daftar item di modal
             const cartItems = document.getElementById('cartItems');
@@ -1031,6 +1104,12 @@
                 const cartModal = bootstrap.Modal.getInstance(document.getElementById('cartModal'));
                 cartModal.hide();
             }, 1000);
+        }
+
+        // Fungsi untuk membuka modal keranjang dari floating cart
+        function openCartModal() {
+            const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+            cartModal.show();
         }
 
         // Tampilkan alert
